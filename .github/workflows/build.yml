@@ -5,6 +5,9 @@ on:
     branches: [master]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build Android APK
@@ -33,11 +36,16 @@ jobs:
           cp index.html android/app/src/main/assets/
           cp manifest.json android/app/src/main/assets/
       
-      - name: Build debug APK
+      - name: Setup Gradle Wrapper
+        working-directory: ./android
         run: |
-          cd android
+          gradle wrapper --gradle-version 8.4
+      
+      - name: Build debug APK
+        working-directory: ./android
+        run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon
       
       - name: Upload APK
         uses: actions/upload-artifact@v3
