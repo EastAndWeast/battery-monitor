@@ -16,15 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Say hello
-        run: echo "Testing build"
-      
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-      
-      - name: Show Java version
+      - name: Check Java
         run: java -version
       
       - name: Copy files
@@ -32,8 +24,9 @@ jobs:
           cp index.html android/app/src/main/assets/
           cp manifest.json android/app/src/main/assets/
       
-      - name: Build
+      - name: Build with Gradle
         run: |
           cd android
           gradle wrapper --gradle-version 8.4
+          chmod +x gradlew
           ./gradlew assembleDebug
