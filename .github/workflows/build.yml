@@ -36,14 +36,11 @@ jobs:
           cp index.html android/app/src/main/assets/
           cp manifest.json android/app/src/main/assets/
       
-      - name: Setup Gradle Wrapper
-        working-directory: ./android
-        run: |
-          gradle wrapper --gradle-version 8.4
-      
       - name: Build debug APK
         working-directory: ./android
         run: |
+          touch gradle/wrapper/gradle-wrapper.properties
+          gradle wrapper --gradle-version 8.4
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
       
